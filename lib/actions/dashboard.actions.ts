@@ -2,15 +2,14 @@
 'use server'
 
 
-import { cookies } from 'next/headers' // <-- Importamos cookies AQUÍ
+// import { cookies } from 'next/headers' // Ya no se necesita aquí porque se maneja en createClient()
 import { createClient } from '../server'
 
 /**
  * Obtiene los KPIs de citas (Tasa de Ausencia, etc.)
  */
 export async function getCitasKPIs() {
-  const cookieStore = cookies() // <-- Llamamos a cookies() aquí
-  const supabase = createClient(cookieStore) // <-- Y lo pasamos como argumento
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .rpc('get_dashboard_kpis_citas')
@@ -27,8 +26,7 @@ export async function getCitasKPIs() {
  * Obtiene el conteo de atenciones por especialidad y estado
  */
 export async function getAtencionesPorEspecialidad() {
-  const cookieStore = cookies() // <-- Llamamos a cookies() aquí
-  const supabase = createClient(cookieStore) // <-- Y lo pasamos como argumento
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .rpc('get_dashboard_atenciones_por_especialidad')
@@ -44,8 +42,7 @@ export async function getAtencionesPorEspecialidad() {
  * Obtiene las métricas por cada doctor
  */
 export async function getMetricasPorDoctor() {
-  const cookieStore = cookies() // <-- Llamamos a cookies() aquí
-  const supabase = createClient(cookieStore) // <-- Y lo pasamos como argumento
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .rpc('get_dashboard_metricas_por_doctor')
