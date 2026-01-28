@@ -5,7 +5,7 @@ import {
     Hospital, Users, Stethoscope, Calendar, FileText, Settings, LogOut,
     Menu, X, UserCircle, Loader2, ChevronDown
 } from 'lucide-react';
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { redirect, usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -25,7 +25,7 @@ interface NavbarProps {
     principal: string;
 }
 
-const Navbar = ({ navLinks, principal }: NavbarProps) => {
+const NavbarContent = ({ navLinks, principal }: NavbarProps) => {
     const { user, role, nombres, apellidos, loading } = useAuth();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -177,6 +177,14 @@ const Navbar = ({ navLinks, principal }: NavbarProps) => {
 
             {isMobileMenuOpen && <div className="fixed inset-0 bg-black/50 z-0 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>}
         </>
+    );
+};
+
+const Navbar = (props: NavbarProps) => {
+    return (
+        <Suspense fallback={<div className="w-64 bg-indigo-400 h-screen animate-pulse" />}>
+            <NavbarContent {...props} />
+        </Suspense>
     );
 };
 
